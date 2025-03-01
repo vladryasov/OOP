@@ -9,7 +9,7 @@ namespace Domain.Entities
 {
     public class SalaryProject
     {
-        int Id { get; set; }
+        public int Id { get; set; }
         public int BankId { get; set; }
         public int EnterpriseAccountId { get; set; }
         public bool IsApproved { get; set; }
