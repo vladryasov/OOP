@@ -35,8 +35,11 @@ namespace Persistance.Configurations
             builder.Property(u => u.PhoneNumber)
                 .IsRequired();
 
-            builder.Property(u => u.WorkPlace)
+            builder.Property(u => u.EnterpriseId)
                 .IsRequired();
+
+            builder.HasOne<Enterprise>()
+                .WithMany();
         }
     }
 }

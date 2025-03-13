@@ -11,7 +11,7 @@ namespace Application.Abstractions
     {
         public Task<bool> LogIn(string email, string password);
         public Task<bool> LogOut(int userId);
-        public Task<bool> Register(string fio, string email, string password, string phoneNumber, string passportId, bool isCitizen, UserRole role, string workPlace);
+        public Task<bool> Register(string fio, string email, string password, string phoneNumber, string passportId, bool isCitizen, UserRole role, int workPlace);
         public Task<bool> DeleteAccount(int userId);
     }
 }

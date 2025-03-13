@@ -13,15 +13,15 @@ namespace Domain.Entities.Accounts
         public int Id { get; set; }
         public decimal Balance { get; set; }
         public bool IsLocked { get; set; }
-        public IAccountOwner Owner { get; set; }
+        public int OwnerId { get; set; }
         public float InterestRate { get; set; }
 
-        public SavingsAccount(int id, decimal balance, bool isLocked, IAccountOwner owner, float interestRate)
+        public SavingsAccount(int id, decimal balance, bool isLocked, int ownerId, float interestRate)
         {
             this.Id = id;
             this.Balance = balance;
             this.IsLocked = isLocked;
-            this.Owner = owner;
+            this.OwnerId = ownerId;
             this.InterestRate = interestRate;
         }
     }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Enterprise : IAccountOwner
+    public class Enterprise
     {
         public int Id { get; set; }
         public string Type { get; set; }

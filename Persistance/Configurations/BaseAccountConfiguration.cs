@@ -21,24 +21,9 @@ namespace Persistance.Configurations
 
             builder.HasOne<User>()
                 .WithMany()
-                .HasForeignKey(a => a.Owner)
+                .HasForeignKey(a => a.OwnerId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
 
-public class EnterpriseAccountConfiguration : IEntityTypeConfiguration<EnterpriseAccount>
-{
-    public void Configure(EntityTypeBuilder<EnterpriseAccount> builder)
-    {
-        builder.HasKey(e => e.Id);
-
-        builder.Property(e => e.Balance)
-            .HasColumnType("decimal(18,2)");
-
-        builder.HasOne<User>()
-            .WithMany()
-            .HasForeignKey(e => e.Owner)
-            .OnDelete(DeleteBehavior.Cascade);
-    }
-}

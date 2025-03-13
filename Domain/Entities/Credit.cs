@@ -16,11 +16,11 @@ namespace Domain.Entities
 
         public bool IsApproved { get; set; }
 
-        public Credit(int userid, decimal sumOfLoan, DateTime endTime, float interestRate, bool isApproved)
+        public Credit(int userId, decimal sumOfLoan, DateTime endDate, float interestRate, bool isApproved)
         {
-            this.UserId = userid;
+            this.UserId = userId;
             this.SumOfLoan = sumOfLoan;
-            this.EndDate = endTime;
+            this.EndDate = endDate;
             this.InterestRate = interestRate;
             this.IsApproved = isApproved;
         }

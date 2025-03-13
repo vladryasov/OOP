@@ -18,12 +18,12 @@ namespace Persistance.Configurations
 
             builder.HasMany<EnterpriseAccount>()
                 .WithOne()
-                .HasForeignKey(e => e.Owner)
+                .HasForeignKey(e => e.OwnerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany<User>()
                 .WithOne()
-                .HasForeignKey(u => u.WorkPlace)
+                .HasForeignKey(u => u.EnterpriseId)
                 .OnDelete(DeleteBehavior.SetNull);
         }
     }

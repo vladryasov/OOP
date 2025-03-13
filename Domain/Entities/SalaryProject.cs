@@ -16,14 +16,14 @@ namespace Domain.Entities
         public decimal Salary {  get; set; }
         public List<int> EmployeeAccountsIds { get; set; }
 
-        public SalaryProject(int id, int bankId, int enterpriseAccountId, bool isApproved, decimal salary, List<int> employeeAccountIds)
+        public SalaryProject(int id, int bankId, int enterpriseAccountId, bool isApproved, decimal salary, List<int> employeeAccountsIds)
         {
             this.Id = id;
             this.BankId = bankId;
             this.EnterpriseAccountId = enterpriseAccountId;
             this.IsApproved = isApproved;
             this.Salary = salary;
-            this.EmployeeAccountsIds = employeeAccountIds;
+            this.EmployeeAccountsIds = employeeAccountsIds;
         }
     }
 }

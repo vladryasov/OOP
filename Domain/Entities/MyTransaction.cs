@@ -8,11 +8,15 @@ namespace Domain.Entities
 {
     public class MyTransaction
     {
-        public int? Id { get; set; } 
+        public int Id { get; set; } 
         public decimal? Sum { get; set; }
         public int? FromId { get; set; }
         public int? ToId { get; set; }
         public DateTime? Date { get; set; }
+
+        public MyTransaction()
+        {
+        }
 
         public MyTransaction(int id, decimal sum, int fromId, int toId)
         {

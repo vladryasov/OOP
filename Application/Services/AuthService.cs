@@ -20,7 +20,7 @@ namespace Application.Services
             _userRepository = userRepository;
             _userService = userService; 
         }
-        public async Task<bool> Register(string fio, string email, string password, string phoneNumber, string passportId, bool isCitizen, UserRole role, string workPlace)
+        public async Task<bool> Register(string fio, string email, string password, string phoneNumber, string passportId, bool isCitizen, UserRole role, int workPlace)
         {
             var existingUser = await _userRepository.GetByEmailIdAsync(passportId);
             if (existingUser != null)

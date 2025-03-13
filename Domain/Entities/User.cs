@@ -8,7 +8,7 @@ using Domain.Interfaces;
 
 namespace Domain.Entities
 {
-    public class User : IAccountOwner
+    public class User
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -18,16 +18,16 @@ namespace Domain.Entities
         public string PassportId { get; set; }
         public bool IsCitizen { get; set; }
 
-        public string WorkPlace { get; set; }
+        public int EnterpriseId { get; set; }
 
         public UserRole Role { get; set; }
         public List<UserPermission> Permissions { get; set; }
 
-        public User(int id, string fullName, string passposrtId, bool isCitizen, string phoneNumber, string email, string password, UserRole role, List<UserPermission> permissions, string workPlace)
+        public User(int id, string name, string passportId, bool isCitizen, string phoneNumber, string email, string password, UserRole role, List<UserPermission> permissions, int enterpriseId)
         {
             this.Id = id; 
-            this.Name = fullName;
-            this.PassportId = passposrtId;
+            this.Name = name;
+            this.PassportId = passportId;
             this.IsCitizen = isCitizen;
             this.PhoneNumber = phoneNumber;
             this.Email = email;
@@ -35,7 +35,7 @@ namespace Domain.Entities
 
             this.Role = role;
             this.Permissions = permissions ?? new List<UserPermission>();
-            this.WorkPlace = workPlace;
+            this.EnterpriseId = enterpriseId;
         }
     }
 }

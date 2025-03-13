@@ -11,20 +11,16 @@ namespace Domain.Entities.Accounts
     public class BaseAccount : IAccount
     {
         public int Id { get; set; }
-
-        public Bank Bank { get; set; }
-
         public decimal Balance { get; set; }
         public bool IsLocked { get; set; }
-        public IAccountOwner Owner { get; set; }
+        public int OwnerId { get; set; }
 
-        public BaseAccount(int id, Bank bank, bool isLocked, IAccountOwner owner)
+        public BaseAccount(int id, bool isLocked, int ownerId)
         {
             this.Id = id;
-            this.Bank = bank;
             this.Balance = 0;
             this.IsLocked = isLocked;
-            this.Owner = owner;
+            this.OwnerId = ownerId;
         }
     }
 }

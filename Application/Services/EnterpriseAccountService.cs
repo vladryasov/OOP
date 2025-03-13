@@ -12,23 +12,25 @@ namespace Application.Services
     public class EnterpriseAccountService : IEnterpriseAccountService
     {
         private readonly IEnterpriseAccountRepository _enterpriseAccountRepository;
-        private readonly IEnterpriseRepository _enterpriseRepository;
+        private readonly IUserRepository _userRepository;
 
-        public EnterpriseAccountService(IEnterpriseAccountRepository enterpriseAccountRepository, IEnterpriseRepository enterpriseRepository)
+        public EnterpriseAccountService(IEnterpriseAccountRepository enterpriseAccountRepository, IUserRepository userRepository)
         {
             _enterpriseAccountRepository = enterpriseAccountRepository;
-            _enterpriseRepository = enterpriseRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<bool> OpenAccount(int id)
         {
-            var owner = await _enterpriseRepository.GetByIdAsync(id);
+            var owner = await _userRepository.GetByIdAsync(id);
 
             if (owner == null) return false;
 
+            var ownerid = owner.Id;
+
             var accid = await _enterpriseAccountRepository.CountAsync();
 
-            var enterpriseAccount = new EnterpriseAccount(accid,true, owner); 
+            var enterpriseAccount = new EnterpriseAccount(accid,true, ownerid); 
 
             await _enterpriseAccountRepository.AddAsync(enterpriseAccount);
 

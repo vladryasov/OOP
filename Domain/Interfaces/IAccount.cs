@@ -8,10 +8,10 @@ namespace Domain.Interfaces
 {
     public interface IAccount
     {
-        int Id { get; }
-        decimal Balance { get; }
-        bool IsLocked { get; }
+        int Id { get; set; }
+        decimal Balance { get; set; }
+        bool IsLocked { get; set; }
 
-        IAccountOwner Owner { get; }
+        int OwnerId { get; set; }
     }
 }
