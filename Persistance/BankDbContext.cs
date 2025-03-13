@@ -44,8 +44,8 @@ namespace Persistance
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Persistance\Bank.db");
-                optionsBuilder.UseSqlite($"Data Source ={path}");
+                
+                optionsBuilder.UseSqlite($"Data Source = D:\\laba\\OOP\\BankConsole\\Persistance\\bank.db");
             }
         }
     }
