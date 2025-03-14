@@ -1,14 +1,18 @@
 ﻿using Domain.Entities;
 using Domain.Entities.Accounts;
-using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Persistence.Configurations
+namespace Persistance.Configurations
 {
-    public class CreditAccountConfiguration : IEntityTypeConfiguration<CreditAccount>
+    public class SavingsAccountConfiguration : IEntityTypeConfiguration<SavingsAccount>
     {
-        public void Configure(EntityTypeBuilder<CreditAccount> builder)
+        public void Configure(EntityTypeBuilder<SavingsAccount> builder)
         {
             builder.HasKey(ca => ca.Id);
 
@@ -19,16 +23,9 @@ namespace Persistence.Configurations
             builder.Property(ca => ca.IsLocked)
                    .IsRequired();
 
-            builder.Property(ca => ca.CreditLimit)
-                   .IsRequired();
-
             builder.Property(ca => ca.InterestRate)
                    .HasColumnType("REAL") // SQLite использует REAL для float
                    .IsRequired();
-
-            builder.Property(ca => ca.CreditEndDate)
-                   .IsRequired();
-
 
             builder.HasMany<MyTransaction>()
                 .WithOne()
@@ -39,7 +36,7 @@ namespace Persistence.Configurations
             builder.HasOne<User>()
                    .WithMany()
                    .HasForeignKey(ca => ca.OwnerId)
-                   .OnDelete(DeleteBehavior.Restrict); // Удаление владельца не удаляет счёт
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

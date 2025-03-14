@@ -11,7 +11,7 @@ using Persistance;
 namespace Persistance.Migrations
 {
     [DbContext(typeof(BankDbContext))]
-    [Migration("20250313155635_Initial")]
+    [Migration("20250314135413_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -174,7 +174,6 @@ namespace Persistance.Migrations
                         .HasColumnType("INTEGER");
 
                     b.PrimitiveCollection<string>("AccountIds")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Address")
@@ -234,6 +233,8 @@ namespace Persistance.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FromId");
 
                     b.ToTable("MyTransactions");
                 });
@@ -358,6 +359,27 @@ namespace Persistance.Migrations
                     b.HasOne("Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.MyTransaction", b =>
+                {
+                    b.HasOne("Domain.Entities.Accounts.BaseAccount", null)
+                        .WithMany()
+                        .HasForeignKey("FromId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Accounts.CreditAccount", null)
+                        .WithMany()
+                        .HasForeignKey("FromId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Accounts.EnterpriseAccount", null)
+                        .WithMany()
+                        .HasForeignKey("FromId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

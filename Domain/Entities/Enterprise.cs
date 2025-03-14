@@ -15,16 +15,16 @@ namespace Domain.Entities
         public string Address { get; set; }
         public string UNP { get; set; }
 
-        public List<int> AccountIds { get; set; }
+        public List<int>? AccountIds { get; set; }
 
-        public Enterprise(int id, string type, string name, string address, string UNP, List<int> accountIds)
+        public Enterprise(int id, string type, string name, string address, string UNP, List<int>? accountIds = null)
         {
             this.Id = id;
             this.Type = type;
             this.Name = name;
             this.Address = address;
             this.UNP = UNP;
-            this.AccountIds = accountIds;
+            this.AccountIds = accountIds ?? new List<int>();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Persistance.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Address = table.Column<string>(type: "TEXT", nullable: false),
                     UNP = table.Column<string>(type: "TEXT", nullable: false),
-                    AccountIds = table.Column<string>(type: "TEXT", nullable: false)
+                    AccountIds = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -54,22 +54,6 @@ namespace Persistance.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Installments", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MyTransactions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Sum = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    FromId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ToId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Date = table.Column<DateTime>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MyTransactions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -227,6 +211,40 @@ namespace Persistance.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MyTransactions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Sum = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    FromId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ToId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Date = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MyTransactions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MyTransactions_BaseAccounts_FromId",
+                        column: x => x.FromId,
+                        principalTable: "BaseAccounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MyTransactions_CreditAccounts_FromId",
+                        column: x => x.FromId,
+                        principalTable: "CreditAccounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MyTransactions_EnterpriseAccounts_FromId",
+                        column: x => x.FromId,
+                        principalTable: "EnterpriseAccounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_BaseAccounts_OwnerId",
                 table: "BaseAccounts",
@@ -246,6 +264,11 @@ namespace Persistance.Migrations
                 name: "IX_EnterpriseAccounts_OwnerId",
                 table: "EnterpriseAccounts",
                 column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MyTransactions_FromId",
+                table: "MyTransactions",
+                column: "FromId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
@@ -272,16 +295,7 @@ namespace Persistance.Migrations
                 name: "Banks");
 
             migrationBuilder.DropTable(
-                name: "BaseAccounts");
-
-            migrationBuilder.DropTable(
-                name: "CreditAccounts");
-
-            migrationBuilder.DropTable(
                 name: "Credits");
-
-            migrationBuilder.DropTable(
-                name: "EnterpriseAccounts");
 
             migrationBuilder.DropTable(
                 name: "Installments");
@@ -294,6 +308,15 @@ namespace Persistance.Migrations
 
             migrationBuilder.DropTable(
                 name: "SavingsAccounts");
+
+            migrationBuilder.DropTable(
+                name: "BaseAccounts");
+
+            migrationBuilder.DropTable(
+                name: "CreditAccounts");
+
+            migrationBuilder.DropTable(
+                name: "EnterpriseAccounts");
 
             migrationBuilder.DropTable(
                 name: "Users");

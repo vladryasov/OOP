@@ -19,6 +19,11 @@ namespace Persistance.Configurations
             builder.Property(e => e.Balance)
                 .HasColumnType("decimal(18,2)");
 
+            builder.HasMany<MyTransaction>()
+                .WithOne()
+                .HasForeignKey(e => e.FromId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasOne<User>()
                 .WithMany()
                 .HasForeignKey(e => e.OwnerId)
