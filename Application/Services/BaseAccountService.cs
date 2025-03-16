@@ -9,15 +9,17 @@ using System.Threading.Tasks;
 
 namespace Application.Services
 {
-    public class EnterpriseAccountService : IEnterpriseAccountService
+    public class BaseAccountService : IBaseAccountService
     {
-        private readonly IEnterpriseAccountRepository _enterpriseAccountRepository;
+        private readonly IAccountRepository _baseAccountRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IEnterpriseRepository _enterpriseRepository;
 
-        public EnterpriseAccountService(IEnterpriseAccountRepository enterpriseAccountRepository, IUserRepository userRepository)
+        public BaseAccountService(IAccountRepository baseAccountRepository, IUserRepository userRepository, IEnterpriseRepository enterpriseRepository)
         {
-            _enterpriseAccountRepository = enterpriseAccountRepository;
+            _baseAccountRepository = baseAccountRepository;
             _userRepository = userRepository;
+            _enterpriseRepository = enterpriseRepository;
         }
 
         public async Task<bool> OpenAccount(int id)
@@ -28,72 +30,78 @@ namespace Application.Services
 
             var ownerid = owner.Id;
 
-            var accid = await _enterpriseAccountRepository.CountAsync() + 1;
+            var accid = await _baseAccountRepository.CountAsync() + 1;
 
-            var enterpriseAccount = new EnterpriseAccount(accid, 999999999, false, ownerid); 
+            var baseAccount = new BaseAccount(accid, false, ownerid);
 
-            await _enterpriseAccountRepository.AddAsync(enterpriseAccount);
+            var enterprise = await _enterpriseRepository.GetByIdAsync(owner.EnterpriseId);
+
+            enterprise.AccountIds.Add(accid);
+
+            await _enterpriseRepository.UpdateAsync(enterprise);
+
+            await _baseAccountRepository.AddAsync(baseAccount);
 
             return true;
         }
 
         public async Task<bool> CloseAccount(int id)
         {
-            var account = await _enterpriseAccountRepository.GetByIdAsync(id);
+            var account = await _baseAccountRepository.GetByIdAsync(id);
 
             if (account == null) return false;
 
             account.IsLocked = true;
 
-            await _enterpriseAccountRepository.DeleteAsync(id);
+            await _baseAccountRepository.DeleteAsync(id);
             return true;
         }
 
         public async Task<bool> Deposit(int id, decimal amount)
         {
-            var account = await _enterpriseAccountRepository.GetByIdAsync(id);
+            var account = await _baseAccountRepository.GetByIdAsync(id);
 
             if (account == null) return false;
 
             account.Balance += amount;
 
-            await _enterpriseAccountRepository.UpdateAsync(account);
+            await _baseAccountRepository.UpdateAsync(account);
             return true;
         }
 
         public async Task<bool> Withdraw(int id, decimal amount)
         {
-            var account = await _enterpriseAccountRepository.GetByIdAsync(id);
+            var account = await _baseAccountRepository.GetByIdAsync(id);
 
             if (account == null) return false;
 
             account.Balance -= amount;
 
-            await _enterpriseAccountRepository.UpdateAsync(account);
+            await _baseAccountRepository.UpdateAsync(account);
             return true;
         }
 
         public async Task<bool> Block(int id)
         {
-            var account = await _enterpriseAccountRepository.GetByIdAsync(id);
+            var account = await _baseAccountRepository.GetByIdAsync(id);
 
             if (account == null) return false;
 
             account.IsLocked = true;
 
-            await _enterpriseAccountRepository.UpdateAsync(account);
+            await _baseAccountRepository.UpdateAsync(account);
             return true;
         }
 
         public async Task<bool> Unblock(int id)
         {
-            var account = await _enterpriseAccountRepository.GetByIdAsync(id);
+            var account = await _baseAccountRepository.GetByIdAsync(id);
 
             if (account == null) return false;
 
             account.IsLocked = false;
 
-            await _enterpriseAccountRepository.UpdateAsync(account);
+            await _baseAccountRepository.UpdateAsync(account);
             return true;
         }
     }

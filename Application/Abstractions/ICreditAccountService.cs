@@ -8,6 +8,6 @@ namespace Application.Abstractions
 {
     public interface ICreditAccountService : IBaseAccountService
     {
-        public void MakePayment(decimal amount);
+        public Task<bool> MakePayment(int id, decimal amount);
     }
 }

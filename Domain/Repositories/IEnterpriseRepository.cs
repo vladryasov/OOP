@@ -10,7 +10,9 @@ namespace Domain.Repositories
 {
     public interface IEnterpriseRepository : IRepository<Enterprise>
     {
-        public Task<List<int>> GetAccountIdsAsync(string workPlace);
+        public Task<List<int>> GetAccountIdsAsync(int workPlace);
         public Task<int> CountAccountAsync(List<int> ids);
+
+        public Task<bool> SetAccountAsync(int id, int accid);
     }
 }

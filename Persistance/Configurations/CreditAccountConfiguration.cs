@@ -34,12 +34,6 @@ namespace Persistence.Configurations
                 .WithOne()
                 .HasForeignKey(e => e.FromId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            // Связь с владельцем счета
-            builder.HasOne<User>()
-                   .WithMany()
-                   .HasForeignKey(ca => ca.OwnerId)
-                   .OnDelete(DeleteBehavior.Restrict); // Удаление владельца не удаляет счёт
         }
     }
 }

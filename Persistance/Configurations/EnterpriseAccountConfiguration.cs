@@ -26,8 +26,7 @@ namespace Persistance.Configurations
 
             builder.HasOne<User>()
                 .WithMany()
-                .HasForeignKey(e => e.OwnerId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(e => e.OwnerId);
         }
     }
 }

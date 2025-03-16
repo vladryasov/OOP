@@ -12,17 +12,17 @@ namespace Application.Services
     public class CreditService : ICreditService
     {
         private readonly ICreditRepository _creditRepository;
-        private readonly ICreditAccountRepository _accountRepository;
+        private readonly IUserRepository _userRepository;
 
-        public CreditService(ICreditRepository creditRepository, ICreditAccountRepository accountRepository)
+        public CreditService(ICreditRepository creditRepository, IUserRepository userRepository)
         {
             _creditRepository = creditRepository;
-            _accountRepository = accountRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<bool> ApplyForCredit(int accountId, decimal total, DateTime endDate)
         {
-            var account = await _accountRepository.GetByIdAsync(accountId);
+            var account = await _userRepository.GetByIdAsync(accountId);
 
             if (account == null) return false;
 
@@ -58,7 +58,7 @@ namespace Application.Services
 
             var credit = new Credit(accountId, total, endDate, rate, false);
 
-            credit.Id = await _creditRepository.CountAsync();
+            credit.Id = await _creditRepository.CountAsync() + 1;
             await _creditRepository.AddAsync(credit);
 
             return true;

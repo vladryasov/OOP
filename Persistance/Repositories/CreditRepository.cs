@@ -62,11 +62,17 @@ namespace Persistance.Repositories
             return account!;
         }
 
-        public async Task<List<Credit>> GetByAccountIdAsync(int userId)
+        public async Task<List<Credit>> GetByUserIdAsync(int userId)
         {
             return await _dbContext.Credits
                 .Where(ca => ca.UserId == userId)
                 .ToListAsync();
+        }
+
+        public async Task<Credit> GetCredit(int id, int userid)
+        {
+            return await _dbContext.Credits
+                .FirstOrDefaultAsync(c => c.Id == id && c.UserId == userid);
         }
     }
 }

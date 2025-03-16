@@ -8,7 +8,7 @@ namespace Domain.Interfaces
 {
     public interface ICreditAccount : IAccount
     {
-        int CreditLimit { get; set; }
+        decimal CreditLimit { get; set; }
         float InterestRate { get; set; }
         DateTime CreditEndDate { get; set; }
     }

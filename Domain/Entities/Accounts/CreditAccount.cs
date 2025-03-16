@@ -14,14 +14,14 @@ namespace Domain.Entities.Accounts
         public bool IsLocked { get; set; }
         public int OwnerId { get; set; }
 
-        public int CreditLimit {  get; set; }
+        public decimal CreditLimit {  get; set; }
         public float InterestRate {  get; set; }
         public DateTime CreditEndDate { get; set; }
 
-        public CreditAccount(int id, bool isLocked, int ownerId, int creditLimit, float interestRate, DateTime creditEndDate)
+        public CreditAccount(int id, decimal balance ,bool isLocked, int ownerId, decimal creditLimit, float interestRate, DateTime creditEndDate)
         {
             Id = id;
-            Balance = 0;
+            Balance = balance;
             IsLocked = isLocked;
             OwnerId = ownerId;
             CreditLimit = creditLimit;

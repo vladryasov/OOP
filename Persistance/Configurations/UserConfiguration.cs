@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Domain.Entities.Accounts;
 
 namespace Persistance.Configurations
 {
@@ -39,7 +40,25 @@ namespace Persistance.Configurations
                 .IsRequired();
 
             builder.HasOne<Enterprise>()
-                .WithMany();
+                .WithMany()
+                .HasForeignKey(u => u.EnterpriseId);
+
+            builder.HasMany<EnterpriseAccount>()
+                .WithOne()
+                .HasForeignKey(u => u.OwnerId);
+
+            builder.HasMany<CreditAccount>()
+                .WithOne()
+                .HasForeignKey(u => u.OwnerId);
+
+            builder.HasMany<BaseAccount>()
+                .WithOne()
+                .HasForeignKey(u => u.OwnerId);
+
+            builder.HasMany<SavingsAccount>()
+                .WithOne()
+                .HasForeignKey(u => u.OwnerId);
+
         }
     }
 }

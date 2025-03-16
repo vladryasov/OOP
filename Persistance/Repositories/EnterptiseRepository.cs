@@ -68,11 +68,24 @@ namespace Persistance.Repositories
             return Task.FromResult(count);
         }
 
-        public async Task<List<int>> GetAccountIdsAsync(string workplace)
+        public async Task<List<int>> GetAccountIdsAsync(int workplace)
         {
-            var enterprise = await _dbContext.Enterprises.FindAsync($"{workplace}");
+            var enterprise = await _dbContext.Enterprises.FindAsync(workplace);
             var ids = enterprise?.AccountIds;
             return ids!;
+        }
+
+        public async Task<bool> SetAccountAsync(int workplace, int accid)
+        {
+            var enterprise = await _dbContext.Enterprises.FindAsync(workplace);
+
+            enterprise.AccountIds.Add(accid);
+
+            _dbContext.Enterprises.Update(enterprise);
+
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }

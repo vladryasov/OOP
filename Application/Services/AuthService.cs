@@ -37,15 +37,15 @@ namespace Application.Services
             return true;
         }
 
-        public async Task<bool> LogIn(string email, string password)
+        public async Task<User> LogIn(string email, string password)
         {
             var user = await _userRepository.GetByEmailIdAsync(email);
             if (user == null || user.Password != password)
             {
-                return false;
+                return null;
             }
 
-            return true;
+            return user;
         }
 
         public Task<bool> LogOut(int userId)

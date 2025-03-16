@@ -16,10 +16,10 @@ namespace Persistance.Configurations
         {
             builder.HasKey(e => e.Id);
 
-            builder.HasMany<EnterpriseAccount>()
+            /*builder.HasMany<EnterpriseAccount>()
                 .WithOne()
                 .HasForeignKey(e => e.OwnerId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade);*/
 
             builder.HasMany<User>()
                 .WithOne()

@@ -9,6 +9,8 @@ namespace Domain.Repositories
 {
     public interface ICreditRepository : IRepository<Credit>
     {
-        Task<List<Credit>> GetByAccountIdAsync(int accountid);
+        Task<List<Credit>> GetByUserIdAsync(int accountid);
+
+        Task<Credit> GetCredit(int id, int userid);
     }
 }

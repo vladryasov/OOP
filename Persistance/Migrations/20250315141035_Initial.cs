@@ -48,6 +48,7 @@ namespace Persistance.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     Length = table.Column<int>(type: "INTEGER", nullable: false),
                     PercentOfOverpayment = table.Column<float>(type: "REAL", nullable: false)
                 },
@@ -71,22 +72,6 @@ namespace Persistance.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SalaryProjects", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SavingsAccounts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Balance = table.Column<decimal>(type: "TEXT", nullable: false),
-                    IsLocked = table.Column<bool>(type: "INTEGER", nullable: false),
-                    OwnerId = table.Column<int>(type: "INTEGER", nullable: false),
-                    InterestRate = table.Column<float>(type: "REAL", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SavingsAccounts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,7 +143,7 @@ namespace Persistance.Migrations
                         column: x => x.OwnerId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,13 +183,29 @@ namespace Persistance.Migrations
                 {
                     table.PrimaryKey("PK_EnterpriseAccounts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EnterpriseAccounts_Enterprises_OwnerId",
+                        name: "FK_EnterpriseAccounts_Users_OwnerId",
                         column: x => x.OwnerId,
-                        principalTable: "Enterprises",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SavingsAccounts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Balance = table.Column<decimal>(type: "TEXT", nullable: false),
+                    IsLocked = table.Column<bool>(type: "INTEGER", nullable: false),
+                    OwnerId = table.Column<int>(type: "INTEGER", nullable: false),
+                    InterestRate = table.Column<float>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SavingsAccounts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EnterpriseAccounts_Users_OwnerId",
+                        name: "FK_SavingsAccounts_Users_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -269,6 +270,11 @@ namespace Persistance.Migrations
                 name: "IX_MyTransactions_FromId",
                 table: "MyTransactions",
                 column: "FromId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SavingsAccounts_OwnerId",
+                table: "SavingsAccounts",
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",

@@ -11,7 +11,7 @@ using Persistance;
 namespace Persistance.Migrations
 {
     [DbContext(typeof(BankDbContext))]
-    [Migration("20250314135413_Initial")]
+    [Migration("20250315141035_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -115,6 +115,8 @@ namespace Persistance.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OwnerId");
+
                     b.ToTable("SavingsAccounts");
                 });
 
@@ -208,6 +210,9 @@ namespace Persistance.Migrations
 
                     b.Property<float>("PercentOfOverpayment")
                         .HasColumnType("REAL");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -335,18 +340,21 @@ namespace Persistance.Migrations
                     b.HasOne("Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.Accounts.EnterpriseAccount", b =>
                 {
-                    b.HasOne("Domain.Entities.Enterprise", null)
+                    b.HasOne("Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
+            modelBuilder.Entity("Domain.Entities.Accounts.SavingsAccount", b =>
+                {
                     b.HasOne("Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("OwnerId")

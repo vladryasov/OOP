@@ -39,7 +39,7 @@ namespace Application.Services
             }
 
             var id = await _salaryProjectRepository.CountAsync();
-            var accountIds = await _enterpriseRepository.GetAccountIdsAsync(enterprise.Name);
+            var accountIds = await _enterpriseRepository.GetAccountIdsAsync(enterprise.Id);
 
             var salaryProject = new SalaryProject(id, enterpriseId, bankId, false, salary, accountIds);
             await _salaryProjectRepository.AddAsync(salaryProject);
